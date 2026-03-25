@@ -40,7 +40,7 @@ El sistema fue diseñado pensando en usabilidad, control de tiempos y visualizac
 ##  Vista del sistema
 
 ###  Inicio de sesión
-![Login](docs/login.png)
+![Login](docs/loguin.png)
 
 ---
 
