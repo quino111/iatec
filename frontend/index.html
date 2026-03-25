@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Pro — IATec</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+
+<!-- ═══ AUTH LAYOUT ═══════════════════════ -->
+<div id="auth-layout">
+
+  <!-- LOGIN -->
+  <div id="page-login" class="page auth-page">
+    <div class="auth-visual">
+      <div class="auth-brand">
+        <div class="auth-brand-logo">
+          <img src="IATEC-vertical.png" alt="IATEC" style="    height: 175pt; filter: brightness(0) invert(1);">
+          
+          
+        </div>
+        <h1>Agenda v3.0</h1>
+        <p>Gestión inteligente de eventos</p>
+      </div>
+      <div class="auth-tagline">
+        <blockquote>
+          "El tiempo es el recurso más valioso. Organízalo con precisión y lleva tus proyectos al siguiente nivel."
+        </blockquote>
+      </div>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-form-container">
+        <h2>Bienvenido</h2>
+        <p class="subtitle">Ingresa a tu agenda personal</p>
+        <div id="login-error" class="alert alert-error" style="display:none"><span>⚠</span><span></span></div>
+        <form onsubmit="Pages.login.submit(event)">
+          <div class="form-group">
+            <label class="form-label">Correo electrónico</label>
+            <input value="admin@iatec.com" id="login-email" type="email" class="form-control" placeholder="tu@email.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input value="Admin123!" id="login-password" type="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button id="login-btn" type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+            Ingresar
+          </button>
+        </form>
+        <div class="divider"></div>
+        <p style="text-align:center;font-size:.85rem;color:var(--text-muted)">
+          ¿No tienes cuenta?
+          <button class="btn btn-ghost btn-sm" onclick="Router.go('register')" style="display:inline;padding:0 6px">Regístrate</button>
+        </p>
+        <div style="margin-top:20px;padding:14px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border)">
+          <p style="font-size:.7rem;color:var(--text-muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em">Usuarios de prueba</p>
+          <p style="font-size:.78rem;color:var(--text-secondary);font-family:'DM Mono',monospace">admin@iatec.com / Admin123!</p>
+          <p style="font-size:.78rem;color:var(--text-secondary);font-family:'DM Mono',monospace;margin-top:2px">juan@iatec.com / User123!</p>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:8px"> Si el backend no está disponible, el modo demo se activa automáticamente con cualquier contraseña.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="page-register" class="page auth-page hidden">
+    <div class="auth-visual">
+      <div class="auth-brand">
+        <div class="auth-brand-logo"><img src="IATEC-vertical.png" alt="IATEC" style="    height: 175pt; filter: brightness(0) invert(1);">
+          </div>
+        <h1>Agenda v3.0</h1>
+        <p>Gestión inteligente de eventos</p>
+      </div>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-form-container">
+        <h2>Crear cuenta</h2>
+        <p class="subtitle">Comienza a organizar tu agenda</p>
+        <div id="register-error" class="alert alert-error" style="display:none"><span>⚠</span><span></span></div>
+        <form onsubmit="Pages.register.submit(event)">
+          <div class="form-group">
+            <label class="form-label">Nombre completo</label>
+            <input id="register-name" type="text" class="form-control" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Correo electrónico</label>
+            <input id="register-email" type="email" class="form-control" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Contraseña</label>
+              <input id="register-password" type="password" class="form-control" placeholder="••••••••" required minlength="6">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirmar</label>
+              <input id="register-password2" type="password" class="form-control" placeholder="••••••••" required>
+            </div>
+          </div>
+          <button id="register-btn" type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Registrarse</button>
+        </form>
+        <div class="divider"></div>
+        <p style="text-align:center;font-size:.85rem;color:var(--text-muted)">
+          ¿Ya tienes cuenta?
+          <button class="btn btn-ghost btn-sm" onclick="Router.go('login')" style="display:inline;padding:0 6px">Ingresar</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /auth-layout -->
+
+ 
+<!-- ═══ APP LAYOUT ════════════════════════ -->
+
+<div id="app-layout" class="app-layout hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-iconx">
+        <!-- <img src="IATEC-vertical.png" alt="IATEC" style="    height: 48pt; filter: brightness(0) invert(1);"> -->
+        <img src="IATEC-vertical.png" alt="IATEC" class="logo-adaptive">
+      </div>
+      <span class="sidebar-brand-name">Agenda v3.0</span>
+    </div>
+
+    <!-- Demo mode badge -->
+    <div id="demo-badge" style="display:none;margin:0 12px 4px;padding:8px 12px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:var(--radius-sm);font-size:.72rem;color:var(--accent-gold);align-items:center;gap:6px">
+      <span>🎭</span><span>Modo Demo activo</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <button class="nav-item active" onclick="Router.go('dashboard')">
+        <span class="icon"><i class="fa fa-chart-line"></i></span> Dashboard
+      </button>
+
+      <button class="nav-item" onclick="Router.go('events')">
+        <span class="icon"><i class="fa fa-calendar"></i></span> Mis Eventos
+      </button>
+
+      <button class="nav-item" onclick="Router.go('create')">
+        <span class="icon"><i class="fa fa-plus-circle"></i></span> Nuevo Evento
+      </button>
+
+      <button class="nav-item" onclick="Router.go('explore')">
+        <span class="icon"><i class="fa fa-globe"></i></span> Explorar / Activar
+      </button>
+
+      <button class="nav-item" onclick="Router.go('filter')">
+        <span class="icon"><i class="fa fa-search"></i></span> Buscar
+      </button>
+
+      <button class="nav-item" onclick="Router.go('profile')">
+        <span class="icon"><i class="fa fa-user"></i></span> Mi Perfil
+      </button>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="sidebar-user-avatar">U</div>
+      <div class="user-info">
+        <div class="user-name" id="sidebar-user-name">Usuario</div>
+        <div class="user-role">Miembro</div>
+      </div>
+      <button class="btn-logout" onclick="logout()" title="Cerrar sesión"><i class="fa fa-sign-out-alt"></i></button>
+    </div>
+  </aside>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn btn-ghost btn-icon" onclick="toggleSidebar()" style="display:none" id="menu-btn">☰</button>
+      <span id="topbar-title" class="topbar-title">Dashboard</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="theme-toggle" class="btn btn-ghost btn-icon" title="Modo claro/oscuro">
+        <i class="fas fa-moon"></i>
+    </button>
+      <button class="btn btn-primary btn-sm" onclick="Router.go('create')"><i class="fa fa-plus"></i> Nuevo Evento</button>
+    </div>
+  </header>
+
+  <!-- ══ DASHBOARD ═══════════════════════ -->
+  <main id="page-dashboard" class="page main-content">
+    <div id="dashboard-content"><div class="loading-spinner"></div></div>
+  </main>
+
+  <!-- ══ MY EVENTS ════════════════════════ -->
+  <main id="page-events" class="page main-content hidden">
+    <div class="section-header">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem">Mis Eventos</h2>
+      <button class="btn btn-primary btn-sm" onclick="Router.go('create')"><i class="fa fa-plus"></i> Nuevo</button>
+    </div>
+    <!-- Inline filters -->
+    <div class="filter-bar" style="margin-bottom:20px">
+      <input id="events-search" type="text" class="form-control" placeholder=" Buscar evento..." oninput="Pages.events.filterChange()" style="flex:2;min-width:180px">
+      <select id="events-type-filter" class="form-control" onchange="Pages.events.filterChange()" style="flex:1;min-width:150px">
+        <option value="all">Todos los tipos</option>
+        <option value="Exclusive">🔒 Exclusivos</option>
+        <option value="Shared">🔗 Compartidos</option>
+        <option value="upcoming">🔜 Próximos</option>
+        <option value="past">⏮ Pasados</option>
+      </select>
+    </div>
+    <div id="events-list"><div class="loading-spinner"></div></div>
+  </main>
+
+  <!-- ══ CREATE EVENT ══════════════════════ -->
+  <main id="page-create" class="page main-content hidden">
+    <div style="max-width:680px;margin:0 auto">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Crear Nuevo Evento</span></div>
+        <div class="card-body">
+          <div id="create-error" class="alert alert-error" style="display:none"><span>⚠</span><span></span></div>
+          <form id="create-form" onsubmit="Pages.create.submit(event)">
+            <div class="form-group">
+              <label class="form-label">Nombre del evento *</label>
+              <input id="create-name" type="text" class="form-control" placeholder="Ej: Reunión de equipo" required maxlength="200">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Descripción</label>
+              <textarea id="create-description" class="form-control" placeholder="Describe el evento..." maxlength="1000"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"><i class="fa fa-calendar-alt"></i> Fecha inicio *</label>
+                <input id="create-date" type="datetime-local" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label"><i class="fa fa-calendar-check"></i> Fecha fin *</label>
+                <input id="create-end-date" type="datetime-local" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="fa fa-map-marker-alt"></i> Lugar</label>
+              <input id="create-location" type="text" class="form-control" placeholder="Ej: Sala A, Zoom..." maxlength="300">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tipo de evento *</label>
+              <div class="radio-group">
+                <label class="radio-card">
+                  <input type="radio" name="create-type" value="Exclusive" checked>
+                  <span class="radio-card-icon"><i class="fa fa-lock"></i></span>
+                  <div><div class="radio-card-label">Exclusivo</div><div class="radio-card-desc">Sin superposición</div></div>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="create-type" value="Shared">
+                  <span class="radio-card-icon"><i class="fa fa-link"></i></span>
+                  <div><div class="radio-card-label">Compartido</div><div class="radio-card-desc">Puede superponerse</div></div>
+                </label>
+              </div>
+              <p class="form-hint">⚠ Los eventos exclusivos no pueden coincidir en el mismo día con otro evento exclusivo</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Participantes</label>
+              <div style="display:flex;gap:8px">
+                <input id="create-participants-input" type="text" class="form-control" placeholder="Nombre o email → Enter"
+                  onkeydown="handleTagKeydown(event,'create-participants-tags','create-participants-input')">
+                <button type="button" class="btn btn-secondary" onclick="addTag('create-participants-tags','create-participants-input')">+</button>
+              </div>
+              <div id="create-participants-tags" class="participants-list"></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px">
+              <button type="button" class="btn btn-secondary" onclick="Router.go('events')">Cancelar</button>
+              <button id="create-submit-btn" type="submit" class="btn btn-primary">Crear Evento</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══ EXPLORE ═══════════════════════════ -->
+  <main id="page-explore" class="page main-content hidden">
+    <div class="section-header">
+      <div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem">Explorar Eventos</h2>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Eventos compartidos de otros usuarios — agrégalos a tu agenda</p>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="Pages.explore.load()">↻ Actualizar</button>
+    </div>
+    <div id="explore-list"><div class="loading-spinner"></div></div>
+  </main>
+
+  <!-- ══ FILTER / SEARCH ═══════════════════ -->
+  <main id="page-filter" class="page main-content hidden">
+    <div style="max-width:900px;margin:0 auto">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Buscar Eventos</span></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:16px;align-items:end;margin-bottom:24px;flex-wrap:wrap">
+            <div>
+              <label class="form-label">Fecha</label>
+              <input id="filter-date" type="datetime-local" class="form-control">
+              <p class="form-hint">Sin hora → todos los eventos del día</p>
+            </div>
+            <div>
+              <label class="form-label">Texto libre</label>
+              <input id="filter-text" type="text" class="form-control" placeholder="Buscar por nombre, descripción, lugar..."
+                onkeydown="if(event.key==='Enter')Pages.filter.search()">
+            </div>
+            <button class="btn btn-primary" onclick="Pages.filter.search()"><i class="fa fa-search"></i></span> Buscar</button>
+          </div>
+          <div id="filter-results">
+            <div class="empty-state">
+              <div class="icon">🔍</div>
+              <h3>Usa los filtros para buscar</h3>
+              <p>Filtra por fecha (día completo o momento ±30min) y/o texto libre</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══ PROFILE ════════════════════════════ -->
+  <main id="page-profile" class="page main-content hidden">
+    <div style="max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:20px">
+
+      <!-- Profile Card -->
+      <div class="card">
+        <div class="card-body" style="display:flex;align-items:center;gap:24px">
+          <div id="profile-avatar-big" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#fff;flex-shrink:0">U</div>
+          <div>
+            <h2 id="profile-name" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600">Nombre</h2>
+            <p id="profile-email" style="color:var(--text-secondary);font-size:.9rem;margin-top:2px">email</p>
+            <p id="profile-mode"  style="font-size:.78rem;margin-top:8px">🟢 Conectado</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Card -->
+      <div class="card">
+        <div class="card-header"><span class="card-title"><i class="fa fa-chart-pie"></i> Estadísticas de Agenda</span></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="padding:20px;background:var(--bg-secondary);border-radius:var(--radius-sm);border:1px solid var(--border);text-align:center">
+              <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--accent-gold)" id="profile-total">0</div>
+              <div style="font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px">Total eventos</div>
+            </div>
+            <div style="padding:20px;background:var(--bg-secondary);border-radius:var(--radius-sm);border:1px solid var(--border);text-align:center">
+              <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--accent-blue)" id="profile-owned">0</div>
+              <div style="font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px">Propios</div>
+            </div>
+            <div style="padding:20px;background:var(--bg-secondary);border-radius:var(--radius-sm);border:1px solid var(--border);text-align:center">
+              <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--accent-red)" id="profile-exclusive">0</div>
+              <div style="font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px">Exclusivos</div>
+            </div>
+            <div style="padding:20px;background:var(--bg-secondary);border-radius:var(--radius-sm);border:1px solid var(--border);text-align:center">
+              <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--accent-green)" id="profile-shared">0</div>
+              <div style="font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px">Compartidos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions Card -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">Acciones</span></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-secondary" onclick="Router.go('create')" style="justify-content:flex-start;gap:12px">
+            <i class="fa fa-plus"></i> Crear nuevo evento
+          </button>
+          <button class="btn btn-secondary" onclick="Router.go('explore')" style="justify-content:flex-start;gap:12px">
+           <i class="fa fa-globe"></i> Explorar eventos disponibles
+          </button>
+          <button class="btn btn-secondary" onclick="Router.go('filter')" style="justify-content:flex-start;gap:12px">
+            <i class="fa fa-search"></i> Buscar eventos
+          </button>
+          <div class="divider"></div>
+          <button class="btn btn-danger" onclick="logout()" style="justify-content:flex-start;gap:12px">
+            <i class="fa fa-sign-out-alt"></i> Cerrar sesión
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</div><!-- /app-layout -->
+
+
+
+<!-- ═══ MODALS ════════════════════════════ -->
+
+<!-- Edit Event -->
+<div id="modal-edit" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Editar Evento</span>
+      <button class="btn btn-ghost btn-icon" onclick="Modal.close('modal-edit')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Nombre *</label>
+        <input id="edit-name" type="text" class="form-control" required maxlength="200">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea id="edit-description" class="form-control" maxlength="1000"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><i class="fa fa-calendar-alt"></i> Fecha inicio *</label>
+          <input id="edit-date" type="datetime-local" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label"><i class="fa fa-calendar-check"></i> Fecha fin *</label>
+          <input id="edit-end-date" type="datetime-local" class="form-control" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="fa fa-map-marker-alt"></i> Lugar</label>
+        <input id="edit-location" type="text" class="form-control" maxlength="300">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <div class="radio-group">
+          <label class="radio-card">
+            <input type="radio" id="edit-type-exclusive" name="edit-type" value="Exclusive">
+            <span class="radio-card-icon"><i class="fa fa-lock"></i></span>
+            <div><div class="radio-card-label">Exclusivo</div></div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" id="edit-type-shared" name="edit-type" value="Shared">
+            <span class="radio-card-icon"><i class="fa fa-link"></i></span>
+            <div><div class="radio-card-label">Compartido</div></div>
+          </label>
+        </div>
+        <p class="form-hint">⚠ Cambiar a exclusivo puede generar conflictos con otros eventos</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="fa fa-users"></i> Participantes</label>
+        <div style="display:flex;gap:8px">
+          <input id="edit-participants-input" type="text" class="form-control" placeholder="Presiona Enter para agregar"
+            onkeydown="handleTagKeydown(event,'edit-participants-tags','edit-participants-input')">
+          <button type="button" class="btn btn-secondary" onclick="addTag('edit-participants-tags','edit-participants-input')">+</button>
+        </div>
+        <div id="edit-participants-tags" class="participants-list"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="Modal.close('modal-edit')">Cancelar</button>
+      <button id="edit-submit-btn" class="btn btn-primary" onclick="Pages.events.submitEdit()">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm -->
+<div id="modal-delete" class="modal-overlay">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <span class="modal-title">Eliminar Evento</span>
+      <button class="btn btn-ghost btn-icon" onclick="Modal.close('modal-delete')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error">
+        <span>⚠</span>
+        <span>¿Estás seguro que deseas eliminar el evento <strong id="delete-event-name"></strong>? Esta acción no se puede deshacer.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="Modal.close('modal-delete')">Cancelar</button>
+      <button class="btn btn-danger"    onclick="Pages.events.deleteConfirmed()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Send to Users -->
+<div id="modal-send" class="modal-overlay">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <span class="modal-title">Enviar Evento a Usuarios</span>
+      <button class="btn btn-ghost btn-icon" onclick="Modal.close('modal-send')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">
+        Selecciona los usuarios que recibirán este evento en su agenda:
+      </p>
+      <div id="send-users-list" class="users-checklist"><div class="loading-spinner"></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="Modal.close('modal-send')">Cancelar</button>
+      <button class="btn btn-primary"   onclick="Pages.events.submitSend()">↗ Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container"></div>
+<script> 
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    
+    function setTheme(theme) {
+        if (theme === 'light') {
+            htmlElement.classList.add('light-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'light');
+        } else {
+            htmlElement.classList.remove('light-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        setTheme('light');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        const isLight = htmlElement.classList.contains('light-mode');
+        setTheme(isLight ? 'dark' : 'light');
+    }); 
+</script>
+<script src="js/demo.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

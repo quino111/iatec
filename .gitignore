@@ -1,0 +1,25 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+
+# Visual Studio
+.vs/
+
+# Logs
+*.log
+
+# Config sensibles
+appsettings.Development.json
+
+# Node (si usas frontend)
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
