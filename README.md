@@ -15,7 +15,7 @@ El sistema fue diseñado pensando en usabilidad, control de tiempos y visualizac
 ##  Tecnologías utilizadas
 
 - **Backend:** C# - .NET WebAPI  
-- **Base de datos:** SQL Server  
+- **Base de datos:** El proyecto utiliza **MySQL / MariaDB**.
 - **Frontend:** HTML, CSS, JavaScript (sin frameworks)  
 
 ---
@@ -87,7 +87,7 @@ Ejemplo:
 
 1. Clonar el repositorio:
  git clone https://github.com/quino111/iatec.git
-2. Configurar la base de datos
+2. Configurar la base de datos, crear la base de datos con nombre **agendapro_db**
 3. Ejecutar el backend (.NET WebAPI)
 4. Abrir index.html del frontend en el navegador
 
