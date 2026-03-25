@@ -60,7 +60,7 @@ El sistema fue diseñado pensando en usabilidad, control de tiempos y visualizac
 ---
 
 ###  Modo oscuro
-![Modo Oscuro](docs/modo_oscuro.png)
+![Modo Oscuro](docs/modo%20oscuro.png)
 
  
 
